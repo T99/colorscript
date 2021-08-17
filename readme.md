@@ -1,18 +1,28 @@
-# JavaScript Module Template
-This repository serves as an easy-start template for JavaScript/TypeScript NPM packages. 
+# ColorScript
+A color library for JavaScript/a JavaScript library for colors.
 
-Simply clone the repository into a directory:
+### [Find colorscript on NPM.](https://www.npmjs.com/package/colorscript)
 
-```bash
-$ git clone git@github.com:T99/js-module-template.git my-new-project
+## Table of Contents
+
+ - [Installation](#installation)
+ - [Basic Usage](#basic-usage)
+ - [Documentation](#documentation)
+ - [License](#license)
+
+## Installation
+Install from NPM with
+```
+$ npm install --save colorscript
 ```
 
-And then run the init script:
+## Basic Usage
+Basic usage instructions here.
 
-```bash
-$ ./init.py
-```
+## Documentation
+See the [wiki](https://github.com/T99/colorscript/wiki) for full documentation.
 
-The init script will interactively prompt you for package information and then automatically build the package, correct and fill-in package information, and install the specified NPM packages already included in the provided `package.json`.
+## License
+colorscript is made available under the GNU General Public License v3.
 
-And that's it! Your project is ready to go.
+Copyright (C) 2021 Trevor Sears

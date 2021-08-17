@@ -1,7 +1,7 @@
 {
-	"name": "<name>",
-	"version": "<version>",
-	"description": "<desc>",
+	"name": "colorscript",
+	"version": "0.1.0",
+	"description": "Color library for JavaScript/JavaScript library for colors.",
 	"main": "js/main",
 	"types": ".d.ts/main",
 	"scripts": {
@@ -16,9 +16,9 @@
 	"author": "Trevor Sears <trevorsears.main@gmail.com> (http://trevorsears.io/)",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
-		"url": "https://github.com/<github_org>/<base_name>/issues"
+		"url": "https://github.com/T99/colorscript/issues"
 	},
-	"homepage": "https://github.com/<github_org>/<base_name>#readme",
+	"homepage": "https://github.com/T99/colorscript#readme",
 	"devDependencies": {
 		"typescript": "latest",
 		"tslint": "latest",
