@@ -1,74 +1,58 @@
-import { Color } from "./Color";
-import { createHexCodeDestructurer } from "./util/hex-helper";
+import { Color, StaticColor } from "../color";
+import { StaticImplements } from "../util/static-implements";
+import { RGBColor } from "./rgb-color";
+import { RGBColorObject } from "./rgb-color";
+import { hsbToRGB } from "../conversions/hsb-to-rgb";
 
-type PlainRGBObject = {
-	red: number,
-	green: number,
-	blue: number
+export type HSBColorObject = {
+	hue: number,
+	saturation: number,
+	brightness: number
 };
 
-type RGBHexDestructurer = (hexCode: string) => PlainRGBObject;
+export type HSBColorArray = [number, number, number];
 
-// @StaticImplements<StaticColor>()
-export class RGBColor implements Color {
+@StaticImplements<StaticColor<HSBColor>>()
+export class HSBColor extends Color<HSBColorObject, HSBColorArray> {
 	
-	protected static hexDestructurer?: RGBHexDestructurer;
+	protected readonly hue: number;
 	
-	protected readonly red: number;
+	protected readonly saturation: number;
 	
-	protected readonly green: number;
+	protected readonly brightness: number;
 	
-	protected readonly blue: number;
-	
-	public constructor(red: number, green: number, blue: number) {
+	public constructor(hue: number, saturation: number, brightness: number) {
 		
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
+		super();
 		
-	}
-	
-	public static getHexDestructerer(): RGBHexDestructurer {
-		
-		if (RGBColor.hexDestructurer === undefined) {
-			
-			RGBColor.hexDestructurer = createHexCodeDestructurer({
-				red: {
-					startIndex: 0,
-					count: 2
-				},
-				green: {
-					startIndex: 2,
-					count: 2
-				},
-				blue: {
-					startIndex: 4,
-					count: 2
-				}
-			});
-			
-		}
-		
-		return this.hexDestructurer as RGBHexDestructurer;
+		this.hue = hue;
+		this.saturation = saturation;
+		this.brightness = brightness;
 		
 	}
 	
-	public static fromComponents(componentsObject: PlainRGBObject): RGBColor;
+	public static getColorTypeID(): string {
+		
+		return "hsb";
+		
+	}
 	
-	public static fromComponents(components: [number, number, number]): RGBColor;
+	public static fromComponents(componentsObject: HSBColorObject): HSBColor;
 	
-	public static fromComponents(...components: number[]): RGBColor;
+	public static fromComponents(components: HSBColorArray): HSBColor;
 	
-	public static fromComponents(componentsObjectOrFirstComponent: PlainRGBObject | [number, number, number] | number,
-								 ...components: number[]): RGBColor {
+	public static fromComponents(...components: number[]): HSBColor;
+	
+	public static fromComponents(componentsObjectOrFirstComponent: HSBColorObject | HSBColorArray | number,
+								 ...components: number[]): HSBColor {
 		
 		if (arguments.length === 1) {
 			
-			if ((componentsObjectOrFirstComponent as PlainRGBObject)?.red !== undefined) {
+			if ((componentsObjectOrFirstComponent as RGBColorObject)?.red !== undefined) {
 				
-				let rgbObject: PlainRGBObject = componentsObjectOrFirstComponent as PlainRGBObject;
+				let rgbObject: RGBColorObject = componentsObjectOrFirstComponent as RGBColorObject;
 				
-				let expectedProperties: (keyof PlainRGBObject)[] = ["red", "green", "blue"];
+				let expectedProperties: (keyof RGBColorObject)[] = ["red", "green", "blue"];
 				
 				for (let expectedProperty of expectedProperties) {
 					
@@ -147,39 +131,55 @@ export class RGBColor implements Color {
 		
 	}
 	
-	public static fromHex(hexCode: string): RGBColor {
+	public static fromHex(hexCode: string): HSBColor {
 		
-		return RGBColor.fromComponents(RGBColor.getHexDestructerer()(hexCode));
-		
-	}
-	
-	public getRed(): number {
-		
-		return this.red;
+		return new HSBColor(0, 0, 0);
 		
 	}
 	
-	public getGreen(): number {
+	public getHue(): number {
 		
-		return this.green;
-		
-	}
-	
-	public getBlue(): number {
-		
-		return this.blue;
+		return this.hue;
 		
 	}
 	
-	public getColorTypeID(): string {
+	public getSaturation(): number {
 		
-		return "rgb";
+		return this.saturation;
 		
 	}
 	
-	public getComponents(): any[] {
+	public getBrightness(): number {
 		
-		return [this.getRed(), this.getGreen(), this.getBlue()];
+		return this.brightness;
+		
+	}
+	
+	public toRGB(): RGBColor {
+		
+		return RGBColor.fromComponents(hsbToRGB(this.getComponentsObject()));
+		
+	}
+	
+	public toHSB(): HSBColor {
+		
+		return this;
+		
+	}
+	
+	public getComponentsObject(): HSBColorObject {
+		
+		return {
+			hue: this.getHue(),
+			saturation: this.getSaturation(),
+			brightness: this.getBrightness()
+		};
+		
+	}
+	
+	public getComponentsArray(): HSBColorArray {
+		
+		return [this.getHue(), this.getSaturation(), this.getBrightness()];
 		
 	}
 	

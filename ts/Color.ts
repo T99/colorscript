@@ -1,23 +1,54 @@
-export abstract class Color {
+import type { RGBColor } from "./colorspaces/rgb-color";
+import type { HSBColor } from "./colorspaces/hsb-color";
+
+export type ColorTypeDescriptor = {
+	readonly [property: string]: {
+		range: {
+			start: number;
+			end: number;
+		}
+	}
+}
+
+export abstract class Color<CO extends object, CA extends any[]> {
 	
-	public abstract getColorTypeID(): string;
+	public abstract toRGB(): RGBColor;
 	
-	public abstract getComponents(): any[];
+	public abstract toHSB(): HSBColor;
+	
+	public abstract getComponentsObject(): CO;
+	
+	public abstract getComponentsArray(): CA;
 	
 	public abstract toHex(includePoundSign: boolean): string;
 	
+	public toString(): string {
+		
+		let colorID: string = (this.constructor as StaticColor<Color<CO, CA>>).getColorTypeID();
+		let colorComponents: any[] = this.getComponentsArray();
+		
+		return `${colorID}(${colorComponents.join(", ")})`;
+		
+	}
+	
 }
 
-export interface StaticColor {
-	
-	new(): Color;
-	
-	fromComponents(componentsObject: object): Color;
+type ExtractColorObject<C> = C extends Color<infer T, []> ? T : never;
 
-	fromComponents(componentsArray: any[]): Color;
+type ExtractColorArray<C> = C extends Color<{}, infer T> ? T : never;
 
-	fromComponents(...componentsArray: any[]): Color;
+export interface StaticColor<C extends Color<any, any>> {
 	
-	fromHex(hexCode: string): Color;
+	new(...args: any[]): C
+	
+	getColorTypeID(): string;
+	
+	fromComponents(componentsObject: ExtractColorObject<C>): C;
+	
+	fromComponents(componentsArray: ExtractColorArray<C>): C;
+	
+	fromComponents(...componentsArray: any[]): C;
+	
+	fromHex(hexCode: string): C;
 	
 }

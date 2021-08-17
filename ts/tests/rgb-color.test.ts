@@ -1,4 +1,4 @@
-import { RGBColor } from "../rgb-color";
+import { RGBColor } from "../colorspaces/rgb-color";
 
 let color: RGBColor;
 
