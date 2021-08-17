@@ -2,6 +2,9 @@
 	
 	"compilerOptions": {
 		
+		// Enable experimental decorator support.
+        "experimentalDecorators": true,
+		
 		// Specify module code generation for CommonJS.
 		"module": "commonjs",
 		
