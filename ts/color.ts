@@ -1,4 +1,14 @@
-import { RGBColor } from "./colorspaces/rgb-color";
+import type { RGBColor } from "./colorspaces/rgb-color";
+import type { HSBColor } from "./colorspaces/hsb-color";
+
+export type ColorTypeDescriptor = {
+	readonly [property: string]: {
+		range: {
+			start: number;
+			end: number;
+		}
+	}
+}
 
 export abstract class Color<CO extends object, CA extends any[]> {
 	
