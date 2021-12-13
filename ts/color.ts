@@ -4,7 +4,7 @@ export abstract class Color<CO extends object, CA extends any[]> {
 	
 	public abstract toRGB(): RGBColor;
 	
-	public abstract toHSB(): 
+	public abstract toHSB(): HSBColor;
 	
 	public abstract getComponentsObject(): CO;
 	
