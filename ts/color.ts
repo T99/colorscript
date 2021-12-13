@@ -12,6 +12,15 @@ export abstract class Color<CO extends object, CA extends any[]> {
 	
 	public abstract toHex(includePoundSign: boolean): string;
 	
+	public toString(): string {
+		
+		let colorID: string = (this.constructor as StaticColor<Color<CO, CA>>).getColorTypeID();
+		let colorComponents: any[] = this.getComponentsArray();
+		
+		return `${colorID}(${colorComponents.join(", ")})`;
+		
+	}
+	
 }
 
 type ExtractColorObject<C> = C extends Color<infer T, []> ? T : never;
